@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="favicon" rel="shortcut icon" href="https://blog.51cto.com/favicon.ico">
+        <title>Linux Centos7安装anaconda3和jupyter-QiuH_CJ-51CTO博客</title>
+    <meta name="keywords" content="anaconda,Linux,jupyter ">
+<meta name="description" content="anaconda">    <link href="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/header.css" rel="stylesheet"><link href="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/other.css" rel="stylesheet"><link href="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/right.css" rel="stylesheet"><link href="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/blog_details.css" rel="stylesheet"><link href="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/highlight.css" rel="stylesheet">
+    <script type="text/javascript" async="" src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/vds.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/push.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/hm.js"></script><script>
+        var HOME_URL = 'https://home.51cto.com/';
+    </script>
+    <script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/jquery_002.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/cookie.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/login.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/common.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/mbox.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/follow.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/vip.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/window.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/share.js"></script><style></style><link rel="stylesheet" href="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/share_style0_16.css"></head>
+<body>
+<img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/share_default.jpg" style="width:0; height:0; position:absolute;" border="0">
+<style type="text/css">
+	.service-btn{
+		width: 53px;
+height: 36px;
+color: #1ac6fe;
+line-height: 16px;
+padding-top: 50px;
+		display: inline-block;
+		background: url(https://s1.51cto.com/images/blog/201811/02/463350acf4c693cfb3dc248bc8a2a0eb.png) no-repeat center;
+	}
+	.service-btn:hover{
+		background: url(https://s1.51cto.com/images/blog/201811/02/2d5fa2ff4eb9ef66847aff20ba4c8bae.png) no-repeat center;
+height: 36px;
+color: #fff;
+line-height: 16px;
+padding-top: 50px;
+	}
+</style>
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+<div id="topbanner14" style="position: relative;width:100%;height:40px;background:url(https://s1.51cto.com/images/blog/201904/11/fbaa72ad4a544037a7c98b1fc24b7c76.jpg)">
+<a class="close fl" href="javascript:;" style="position:absolute;width:13px;height:13px;top:0px;z-index: 20;background: url('https://s1.51cto.com/images/blog/201808/23/0363c65f527ea7c9880ab5f275303d1a.png') 0 0 no-repeat;background-size: 100% 100%;left: 50%;margin-left: 587px;"></a>
+<a href="https://blog.51cto.com/cloumn/composedetail?id=4" target="_blank">
+  <img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/3e5a39f48dc84b64c21b78364d54c0cd.jpg" alt="" style="position:absolute;width:1200px;height:40px;margin-left: -600px;left:50%;z-index: 10;">
+</a>
+</div>
+<script>
+    $("#topbanner14").on("click",".close",function(){
+        $("#topbanner14").remove();
+    })
+</script>
+<div class="Header">
+  <div class="Page ">
+    <h1 class="Logo"><a href="https://blog.51cto.com/">Logo</a></h1>
+    <ul class="Navigates fl">
+      <li><a href="https://blog.51cto.com/">首页</a></li>
+      <li><a href="https://blog.51cto.com/original">文章</a></li>
+      <li><a href="https://blog.51cto.com/blog/follow">关注</a></li>
+      <li class="">
+        <a class="column-stress" href="https://blog.51cto.com/cloumn/index" target="_blank">订阅专栏</a>
+      </li>
+                    
+      
+    </ul>
+    <ul class="Navigates Navigates-right fr">
+      <li class="more maps">
+        <a href="javascript:void(0);">网站导航</a>
+        <div>
+            <a href="https://edu.51cto.com/" target="_blank">学院</a>
+            <a href="https://blog.51cto.com/" target="_blank">博客</a>
+            <a href="http://down.51cto.com/" target="_blank">下载</a>
+            <a href="https://home.51cto.com/" target="_blank">家园</a>
+            <a href="http://bbs.51cto.com/" target="_blank">论坛</a>
+            <a href="http://x.51cto.com/" target="_blank">CTO训练营</a>
+            <!--a href=" http://club.51cto.com?blog" target="_blank">CTO俱乐部</a-->
+            <a href="http://wot.51cto.com/" target="_blank">WOT</a>
+            <a href="http://www.51cto.com/" target="_blank">51CTO</a>
+            <i class="arrow"></i>
+        </div>
+      </li>
+                <li><a href="https://blog.51cto.com/site/login?reback=https%3A%2F%2Fblog.51cto.com%2Fdoublelinux%2F2092024&amp;logintype=reg" target="_self">注册</a></li>
+          <li class="login"><a href="https://blog.51cto.com/site/login?reback=https%3A%2F%2Fblog.51cto.com%2Fdoublelinux%2F2092024" target="_self">登录</a></li>
+                        <li class="mRead">
+          <a href="javascript:;">手机阅读</a>
+          <div>
+            <img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/blog_qr.png">
+            <p>扫一扫体验手机阅读</p>
+            <i class="arrow"></i>
+          </div>
+        </li>
+            <li class="search"><a href="https://blog.51cto.com/search/index" target="_self">搜索</a></li>
+                  <li class="write"><a href="javascript:;" onclick="Login()">写文章</a></li>
+                  </ul>
+
+          <div class="clear"></div>
+  </div>
+</div>
+<script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/box.js"></script> 
+<script>
+    var isLogin = '0';
+    var userId = '';
+    var imgpath = 'https://s1.51cto.com/';
+    var BLOG_URL = 'https://blog.51cto.com/';
+    var msg_num_url = '/index/ajax-msg-num';
+    $('.msg-follow, .msg-follow-max').eq(1).css({top: '91px'});
+    $('.msg-follow, .msg-follow-max').eq(2).css({top: '121px'});
+    setTimeout(function(){
+            $.ajax({
+                url:msg_num_url,
+                type:"get",
+                dataType:'json',
+                success:function(res){
+                    if(res.status == '0'){
+                       //
+                       var hasNewMsg = false;
+                       if(res.data.msgNum > 0 && !$('#myMsg i').hasClass('dot')){
+                            $('#myMsg i').addClass('dot');
+                            hasNewMsg = true;
+                       }
+                       if(res.data.notifyNum > 0 && !$('#myNotify i').hasClass('dot')){
+                           $('#myNotify i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(res.data.recommend_new > 0 && !$('#myRecommend i').hasClass('dot')){
+                           $('#myRecommend i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(hasNewMsg && !$('#myAllMsg i').hasClass('dot')){
+                           $('#myAllMsg i').addClass('dot');
+                       }
+                    }
+
+                }
+            });
+    },70);
+    //广告图
+$(function(){
+     new AutoAD({
+      ADD:$('<a href="https://blog.51cto.com/cloumn/index?pc" class="closeMB" target="_blank" styel="display:block;"><img src="https://s1.51cto.com/images/blog/201904/16/0020d9d6e72e0a3d15354555878b490d.jpg"></a><a class="closeMB" style="position: absolute;right:2px;top: 3px;width: 50px;height: 40px;cursor: pointer;" href="javascript:;"></a>'),
+      W:500,
+      H:400,
+      cookie:'blog_activity_blog49',
+      mask:"#000",
+      ts:'21600',
+      noCBtn: true
+    }) 
+})    
+</script>
+ <script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/entrance.js" id="zhichiScript" class="zhiCustomBtn" data-args="manual=true"></script>
+<a href="javascript:;" class="zhiCustomBtn" style="position: fixed;z-index: 2147483583;width: 60px;height: 6px;text-align: center;bottom:275px;right:0px;">
+<span class="service-btn">在线<br>客服</span>
+</a>
+
+<script type="text/javascript">
+var zhiManager = (getzhiSDKInstance());
+zhiManager.on("load", function() {
+    zhiManager.initBtnDOM();
+});
+//zhiManager.set('title','垃圾/广告信息举报');
+zhiManager.set('powered',false);
+zhiManager.set('color', '4285f4');
+zhiManager.set('customBtn', 'true');
+zhiManager.set('moduleType',2);
+zhiManager.set('size',{'width':360,'height':500});
+
+zhiManager.set('userinfo', {partnerId:'',uname:'',params:'{"用户名":""}'});
+zhiManager.set('customMargin', 20);
+zhiManager.set('horizontal', 20);
+zhiManager.set('vertical', 90);
+zhiManager.set('preVisitArgs',{'preVisitUrl': document.referrer?document.referrer:''});
+zhiManager.set('curVisitArgs',{'curVisitUrl': location.href,curVisitTitle:document.title,});
+</script>
+<div class="Content-box" style="min-height: 566px;">
+    	<link rel="stylesheet" href="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/mdeShow.css">
+<link rel="stylesheet" href="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/tinyscrollbar.css">
+<script type="text/javascript" src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/jquery.js"></script>
+<div class="Content Index" style="padding-bottom: 50px;">
+	<div class="Page M764">
+		<!-- left start -->
+		<div class="artical-Left-blog">
+			<div class="status">
+	        					<a class="tab_name original">原创</a>
+							</div>
+			<h1 class="artical-title">Linux Centos7安装anaconda3和jupyter</h1>
+			<div class="artical-title-list">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/doublelinux" class="a-img" target="_blank"><img class="is-vip-img is-vip-img-4" data-uid="12300166" src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/b6122f703d5c0946ecb072bf1d8d3f35.jpg"></a>
+				</div>
+				<a href="https://blog.51cto.com/doublelinux" class="name fl" target="_blank" style="margin-right:0;">Qiu_CJ</a>
+									                	                    <a id="checkFollow1_12300166" class="checkFollow-btn on fl" style="margin-left:8px;">关注</a>
+	                	            				<a class="comment comment-num fr"><font class="comment_number">0</font>人评论</a>
+				<span class="fr"></span>
+				<a href="javascript:;" class="read fr">37632人阅读</a>
+				<a href="javascript:;" class="time fr">2018-03-28 15:18:43</a>
+				<div class="clear"></div>
+			</div>
+							<div class="artical-content-bak main-content">
+					<div class="con artical-content editor-preview-side"><h2>Linux Centos7安装anaconda3和jupyter notebook</h2>
+<h2>安装anaconda3</h2>
+<p>anaconda指的是一个开源的Python发行版本，其包含了conda、Python等180多个科学包及其依赖项。</p>
+<hr>
+<h3>一、下载安装文件链</h3>
+<p><a href="https://repo.continuum.io/archive/index.html" rel="nofollow" style="color: rgb(66, 133, 244);">下载地址1（官方网站）</a><br><a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/" rel="nofollow" style="color: rgb(66, 133, 244);">下载地址2（清华开源镜像）</a><br>下载地址主页面如下图所示，选择适合的版本下载到linux系统中</p>
+<p><img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/bf23f2303504c39eca9cb2772874f026.png" alt="Linux Centos7安装anaconda3和jupyter" style="cursor: pointer;"></p>
+<h3>二、将下载好的文件上传到Linux系统中</h3>
+<p>使用xftp或xshell中使用rz命令等方式。</p>
+<hr>
+<h3>三、上传完毕后，开始安装</h3>
+<p>1、执行命令安装</p>
+<p>[root@localhost application]# pwd<br>/root/application<br>[root@localhost application]# ls<br>Anaconda3-5.0.1-Linux-x86_64.sh<br>[root@localhost application]# sh Anaconda3-5.0.1-Linux-x86_64.sh </p>
+<p>2、修改环境变量</p>
+<p>1) 打开全局环境变量配置文件/etc/profile</p>
+<p>vim /etc/profile</p>
+<p>2) 在全局配置文件中加入</p>
+<p>export PATH=/root/anaconda3/bin:$PATH</p>
+<p>3) 使环境变量立即生效</p>
+<p>source /etc/profile`</p>
+<p>PS:第一步和第二步可以合并为：</p>
+<p>echo "export PATH=/root/anaconda3/bin:$PATH" &gt;&gt; /etc/profile`</p>
+<hr>
+<h3>四、测试</h3>
+<p>在linux终端打开python，若是下面的界面表示成功<br>注：系统自带的Python是2.7.5，安装anaconda3会自动升级Python版本</p>
+<p><img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/f3b90d6ac74e8cdb2412d5101b6ced88.png" alt="Linux Centos7安装anaconda3和jupyter" style="cursor: pointer;"></p>
+<hr>
+<hr>
+<p>【windows安装】下载windows对应版本，鼠标右键——&gt;管理员身份运行——&gt;后面基本是‘下一步’。但是要在环境变量Path添加三个路径：<br>F:\Anaconda3-5.0.1-Windows-x86_64\anzhuang<br>F:\Anaconda3-5.0.1-Windows-x86_64\anzhuang\Scripts<br>F:\Anaconda3-5.0.1-Windows-x86_64\anzhuang\Library\bin</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<h2>Linux安装jupyter notebook</h2>
+<h3>一、升级pip</h3>
+<p>由于之前安装了anaconda3，这会自动安装好python的pip下载工具，不过这个pip版本可能过低，需要先升级</p>
+<p>pip install --upgrade pip</p>
+<hr>
+<h3>二、安装jupyter notebook</h3>
+<p>pip install jupyter notebook</p>
+<hr>
+<h3>三、配置jupyter notebook</h3>
+<p>1、 在个人账户下建立配置文件<br>jupyter notebook --generate-config</p>
+<p>2、Python环境下设置密码：<br>from notebook.auth import passwd<br>passwd()</p>
+<pre><code class="hljs nginx">    <span class="hljs-attribute">Enter</span> password: <span class="hljs-number">123456</span> <span class="hljs-comment"># 设置密码为123456</span>
+
+    Verify password:
+
+            <span class="hljs-string">'sha1:d66351142f0a:9eea3d7f99e434a6837f5e73af18d03cf0353392'</span>(复制此行密码)</code></pre>
+<p>ctrl+z</p>
+<p>3、生成配置文件<br>jupyter notebook --generate-config</p>
+<p>4、修改配置文件<br>使用 vim /home/(用户名)/.jupyter/jupyternotebook_config.py打开配置文件，修改其中的一些部分</p>
+<p>c.NotebookApp.allow_root = True<br>c.NotebookApp.ip = '*' <br>c.NotebookApp.password = 'sha1:b39d2445079f:9b9ab99f65150e113265cb99a841a6403aa52647' #这里的密码是刚刚生成的密码<br>c.NotebookApp.certfile = u'/root/.jupyter/mycert.pem'<br>c.NotebookApp.port= 8888<br>c.NotebookApp.notebookdir = "/root/ipython"   #默认目录 ，windows是c.NotebookApp.notebook_dir</p>
+<hr>
+<h3>四、测试</h3>
+<p>1、开启<br>jupyter notebook</p>
+<p>2、浏览器访问测试</p>
+<p><img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/d97d6afa9f01691cdebe1e7f47a0aedc.png" alt="Linux Centos7安装anaconda3和jupyter" style="cursor: pointer;"></p></div>
+				</div>
+													<div class="artical-copyright mt26">©著作权归作者所有：来自51CTO博客作者Qiu_CJ的原创作品，如需转载，请注明出处，否则将追究法律责任</div>
+									<div class="for-tag mt26">
+																						<a href="https://blog.51cto.com/search/result?q=anaconda" target="_blank">anaconda</a>
+																								<a href="https://blog.51cto.com/search/result?q=Linux" target="_blank">Linux</a>
+																								<a href="https://blog.51cto.com/search/result?q=jupyter+" target="_blank">jupyter </a>
+															                				<div class="clear"></div>
+			</div>
+			<div class="more-list">
+				<p class="is-praise fl "><span type="1" blog_id="2092024" userid="12300166">1</span></p>
+				<div class="share-box fr">
+					<p class="share"><i></i>分享</p>
+					<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1555424617903">
+					  <span></span>
+					  <a class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">微博</a>
+					  <a class="bds_sqq" data-cmd="sqq" title="分享到QQ好友">QQ</a>
+					  <a class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+					  <img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/qr-url">
+					</div>
+				</div>
+				<p class="favorites favorites-opt fr"><i></i>收藏</p>
+								<div class="clear"></div>
+			</div>
+							<div class="artical-list">
+	            					<a class="fl" href="https://blog.51cto.com/doublelinux/2091344" title="TensorFlow学习笔记">
+						上一篇：TensorFlow学习笔记</a>
+	            	            					<a class="fr" href="https://blog.51cto.com/doublelinux/2092107" title="Linux Centos7安装配置画图工具Graphviz">
+						下一篇：Linux Centos7安装配...</a>
+	            					<div class="clear"></div>
+				</div>
+						<div class="author-module">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/doublelinux" class="a-img" target="_blank">
+						<img class="is-vip-img is-vip-img-4" data-uid="12300166" src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/b6122f703d5c0946ecb072bf1d8d3f35.jpg">
+					</a>
+				</div>
+				<div class="author-module-center fl">
+					<a class="h2" href="https://blog.51cto.com/doublelinux" target="_blank" style="display:inline-block;">Qiu_CJ</a>
+										<h3>107篇文章，39W+人气，1粉丝</h3>
+					<h4>请输入自我介绍，不超过20个字。</h4>				</div>
+									<div class="author-module-right author-checkFollow fr">
+          	                  <a id="checkFollow2_12300166" class="follow-1 checkFollow on">关注</a>
+              					</div>
+        				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="artical-Left" id="comment">
+			<!-- 发布评论 -->
+			<div class="comment-creat">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/doublelinux" class="header-img" target="_blank">
+						<img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/noavatar_middle.gif">
+					</a>
+				</div>
+				<div class="first-publish fr publish_user_id">
+					<textarea class="textareadiv textareadiv-publish" name="" id="" placeholder="提问和评论都可以，用心的回复会被更多人看到和认可" maxlength="500"></textarea>
+					<div class="comment-push">
+						<p class="msg fl">Ctrl+Enter&nbsp;发布</p>
+													<p class="publish-btn blue-btn fr" flag="1">发布</p>
+												<p class="cancel-btn cancel-btn-1 fr">取消</p>
+						<div class="clear"></div>
+					</div>
+					<input class="user_id" value="12300166" type="hidden">
+					<input class="reply_id" value="2092024" type="hidden">
+					<input class="first_pid" value="" type="hidden">
+				</div>
+				<div class="clear"></div>
+			</div>
+						<div class="commentList"></div>
+			<!-- page -->
+			<div class="act_pageList_box"></div>
+		</div>
+		<!-- end left -->
+		<!-- right start -->
+		<div class="Blog-Right artical-Right">
+			<a class="catalog" style="display: none;"></a>
+			<a class="scrollTop" href="javascript:void(0);" onclick="$(window).scrollTop(0);" style="display: none;"></a>
+		<div class="directoryBox"><span class="top-icon"></span><div class="list directory"><ul class="directory-list"><li class="lv1 on">Linux Centos7安装anaconda3和jupyter notebook</li><li class="lv1">安装anaconda3</li><li class="lv3">一、下载安装文件链</li><li class="lv3">二、将下载好的文件上传到Linux系统中</li><li class="lv3">三、上传完毕后，开始安装</li><li class="lv3">四、测试</li><li class="lv1">Linux安装jupyter notebook</li><li class="lv3">一、升级pip</li><li class="lv3">二、安装jupyter notebook</li><li class="lv3">三、配置jupyter notebook</li><li class="lv3">四、测试</li><div class="arrow" style="top: 33px;"></div></ul></div><span class="bot-icon"></span></div></div>
+		<!-- end right  -->
+	</div>
+			<div class="special-column">
+			<div class="Page M764">
+													<div class="column-2">
+						<h2 class="column-tit">猜你喜欢</h2>
+						<div class="column-box">
+															<a class="white-space" href="https://blog.51cto.com/doublelinux/2346257?source=dra" target="_blank">WebView加载网页（二）</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/doublelinux/2344027?source=dra" target="_blank">WebView加载网页（一）</a>
+															<a class="white-space" href="https://blog.51cto.com/363918/1341977?source=drt" target="_blank">linux命令eval的用法 </a>
+															<a class="white-space left-list" href="https://blog.51cto.com/xujpxm/1961072?source=drt" target="_blank">Linux MemFree与MemAvailable的区别</a>
+															<a class="white-space" href="https://blog.51cto.com/13438667/2096206?source=drt" target="_blank">Linux awk用法</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/redking/142973?source=drt" target="_blank">【Linux技术资源汇总】</a>
+															<a class="white-space" href="https://blog.51cto.com/richardlee/5166?source=drt" target="_blank">“Linux”真确读音！</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/bguncle/1392870?source=drt" target="_blank">linux升级OpenSSL</a>
+															<a class="white-space" href="https://blog.51cto.com/rajaruan/822199?source=drt" target="_blank">linux命令之nohup</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/1123697506/882064?source=drt" target="_blank">Linux命令之umask</a>
+															<a class="white-space" href="https://blog.51cto.com/shanliren/144405?source=drt" target="_blank">linux解压tar命令</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/12947851/2067548?source=drt" target="_blank">linux系统日志</a>
+															<a class="white-space" href="https://blog.51cto.com/13591395/2363544?source=drh" target="_blank">深度召回模型在QQ看点推荐中的应用实践</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/leesbing/2357358?source=drh" target="_blank">macos+xcode9+cuda10+anaconda+pytorch+torchvision安装</a>
+															<a class="white-space" href="https://blog.51cto.com/shutong/2349406?source=drh" target="_blank">利用Azure内容审查器审查违规内容(上)</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/gloomyfish/2348169?source=drh" target="_blank">使用DCGAN实现人脸图像生成</a>
+															<a class="white-space" href="https://blog.51cto.com/gloomyfish/2319246?source=drh" target="_blank">MTCNN实时人脸检测网络详解与opencv+tensorflow代码演示</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/13981273/2315533?source=drh" target="_blank">用程序消除一道概率题的二义性</a>
+															<a class="white-space" href="https://blog.51cto.com/gloomyfish/2298441?source=drh" target="_blank">tensorflow版本SSD网络源码分析</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/13820241/2132442?source=drh" target="_blank">初步学习Scikit-learn（sklearn）</a>
+														<div class="clear"></div>
+						</div>
+					</div>
+							</div>
+		</div>
+		<div class="group_img_box">
+		<div class="group_git_box">
+        			<img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/078772c84eb23213ea90f577d9316ce4.png">
+        		</div>
+			<div class="group_code_box">
+			<img src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/left-qr.jpg" width="130" height="130">
+			<p>扫一扫,领取大礼包</p>
+		</div>
+	</div>		
+	<div class="the-lowest-bg" style="display: block;">
+		<div class="the-lowest Page M764">
+			<p class="is-praise fl "><span type="1" blog_id="2092024" userid="12300166">1</span></p>
+			<p class="b-favorites favorites-opt fl"><i></i><b>0</b></p>
+			<a class="b-reply fl"><i></i><font class="comment_number"></font></a>
+			<div class="b-share fl">
+				<i></i>分享
+				<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1555424617903">
+				  <a class="bds_tsina p2" data-cmd="tsina" title="分享到新浪微博"></a>
+				  <a class="bds_sqq p3" data-cmd="sqq" title="分享到QQ好友"></a>
+				  <a class="bds_weixin p1" data-cmd="weixin" title="分享到微信"><em class="code-icon"></em><img class="code-img" src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/qr-url"></a>
+				</div>
+			</div>
+      				<div class="b-fllow author-checkFollow fr" style="margin-left: 20px;">
+                        <a id="checkFollow3_12300166" class="follow-1 checkFollow on">关注</a>
+          				</div>
+      						<a href="https://blog.51cto.com/doublelinux" class="b-name fr">Qiu_CJ</a>
+			<div class="is-vip-bg-6 fr">
+				<a href="https://blog.51cto.com/doublelinux" class="b-img"><img class="is-vip-img is-vip-img-4" data-uid="12300166" src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/b6122f703d5c0946ecb072bf1d8d3f35.jpg"></a>
+			</div>
+			<div class="clear"></div>
+
+		</div>
+	</div>
+</div>
+<!-- 老博文美观处理 -->
+<script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/countDown.js"></script>
+<script>
+	var praise_url = 'https://blog.51cto.com/praise/praise'
+    	addReply_url = 'https://blog.51cto.com/comments/add'
+    	removeUrl = 'https://blog.51cto.com/comments/del'
+    	blog_id = '2092024'
+    	pv_log_info = {
+            'pv_type':'blog',
+            'user_id':'12300166',
+            'blog_id':'2092024'
+        };
+    	rid = '0'
+    	is_comment = '0'
+    	comment_list = '/blog/ajax-comment-list'
+    	comment_sort = "asc"
+    	index_url = 'https://blog.51cto.com/doublelinux';
+    	uc_url = 'https://ucenter.51cto.com/'
+    	blog_url = 'https://blog.51cto.com/'
+    	img_url = 'https://static1.51cto.com/edu/blog/'
+    	i_user_id = ''
+    	c_user_id ='12300166'
+    	collect_url = 'https://blog.51cto.com/collect/add'
+    	is_old = '0'
+    	nicknameurl = 'https://blog.51cto.com/doublelinux'
+    	nickname = 'Qiu_CJ'
+    	myself = window.location.href;
+	$('.you-like-list li:odd').css({'margin-left': '10%'});
+	$('.column-box a:odd').addClass('left-list')
+	$('.myUrl').text(myself).click(function(){window.open(myself)})
+	setTimeout(function(){$('.Footer').css({'margin-top':'-50px'})},50)
+    		function FollowBtnSucc(e){//1:未关注,2:已关注,3:互相关注
+		    if(e==2||e==3){
+		        $.post('/index/wxbind',{uid:userId},function(res){
+		            if(res.data.wxBind == 0){//没绑定
+	                    if(getCookie('follow1'))return false;
+	                    box1()
+	                }else{
+	                    if(getCookie('follow2'))return false;
+	                    box2()
+	                }
+		        },'json')
+		    }
+		}
+		FollowBtn = new Follow($('#checkFollow1_12300166'),'12300166','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+		FollowBtn = new Follow($('#checkFollow2_12300166'),'12300166','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+		FollowBtn = new Follow($('#checkFollow3_12300166'),'12300166','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+        	if(is_old==1){
+    // SyntaxHighlighter.all();
+    insertCodeElement("## Linux Centos7\u5b89\u88c5anaconda3\u548cjupyter notebook\n\n\n## \u5b89\u88c5anaconda3\n\n\n\nanaconda\u6307\u7684\u662f\u4e00\u4e2a\u5f00\u6e90\u7684Python\u53d1\u884c\u7248\u672c\uff0c\u5176\u5305\u542b\u4e86conda\u3001Python\u7b49180\u591a\u4e2a\u79d1\u5b66\u5305\u53ca\u5176\u4f9d\u8d56\u9879\u3002\n\n\n\n-----\n\n\n\n\n### \u4e00\u3001\u4e0b\u8f7d\u5b89\u88c5\u6587\u4ef6\u94fe\n[\u4e0b\u8f7d\u5730\u57401\uff08\u5b98\u65b9\u7f51\u7ad9\uff09](https:\/\/repo.continuum.io\/archive\/index.html)\n[\u4e0b\u8f7d\u5730\u57402\uff08\u6e05\u534e\u5f00\u6e90\u955c\u50cf\uff09](https:\/\/mirrors.tuna.tsinghua.edu.cn\/anaconda\/archive\/)\n\u4e0b\u8f7d\u5730\u5740\u4e3b\u9875\u9762\u5982\u4e0b\u56fe\u6240\u793a\uff0c\u9009\u62e9\u9002\u5408\u7684\u7248\u672c\u4e0b\u8f7d\u5230linux\u7cfb\u7edf\u4e2d\n\n![](https:\/\/s1.51cto.com\/images\/blog\/201803\/28\/bf23f2303504c39eca9cb2772874f026.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n\n### \u4e8c\u3001\u5c06\u4e0b\u8f7d\u597d\u7684\u6587\u4ef6\u4e0a\u4f20\u5230Linux\u7cfb\u7edf\u4e2d\n\u4f7f\u7528xftp\u6216xshell\u4e2d\u4f7f\u7528rz\u547d\u4ee4\u7b49\u65b9\u5f0f\u3002\n\n\n\n-----\n\n\n\n### \u4e09\u3001\u4e0a\u4f20\u5b8c\u6bd5\u540e\uff0c\u5f00\u59cb\u5b89\u88c5\n1\u3001\u6267\u884c\u547d\u4ee4\u5b89\u88c5\n\n[root@localhost application]# pwd\n\/root\/application\n[root@localhost application]# ls\nAnaconda3-5.0.1-Linux-x86_64.sh\n[root@localhost application]# sh Anaconda3-5.0.1-Linux-x86_64.sh \n\n2\u3001\u4fee\u6539\u73af\u5883\u53d8\u91cf\n\n1) \u6253\u5f00\u5168\u5c40\u73af\u5883\u53d8\u91cf\u914d\u7f6e\u6587\u4ef6\/etc\/profile\n\nvim \/etc\/profile\n\n2) \u5728\u5168\u5c40\u914d\u7f6e\u6587\u4ef6\u4e2d\u52a0\u5165\n\nexport PATH=\/root\/anaconda3\/bin:$PATH\n\n3) \u4f7f\u73af\u5883\u53d8\u91cf\u7acb\u5373\u751f\u6548\n\nsource \/etc\/profile`\n\nPS:\u7b2c\u4e00\u6b65\u548c\u7b2c\u4e8c\u6b65\u53ef\u4ee5\u5408\u5e76\u4e3a\uff1a\n\necho \"export PATH=\/root\/anaconda3\/bin:$PATH\" >> \/etc\/profile`\n\n\n\n\n-----\n\n\n\n### \u56db\u3001\u6d4b\u8bd5\n\u5728linux\u7ec8\u7aef\u6253\u5f00python\uff0c\u82e5\u662f\u4e0b\u9762\u7684\u754c\u9762\u8868\u793a\u6210\u529f\n\u6ce8\uff1a\u7cfb\u7edf\u81ea\u5e26\u7684Python\u662f2.7.5\uff0c\u5b89\u88c5anaconda3\u4f1a\u81ea\u52a8\u5347\u7ea7Python\u7248\u672c\n\n![](https:\/\/s1.51cto.com\/images\/blog\/201803\/28\/f3b90d6ac74e8cdb2412d5101b6ced88.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n\n\n\n\n-----\n\n\n\n-----\n\n\u3010windows\u5b89\u88c5\u3011\u4e0b\u8f7dwindows\u5bf9\u5e94\u7248\u672c\uff0c\u9f20\u6807\u53f3\u952e\u2014\u2014>\u7ba1\u7406\u5458\u8eab\u4efd\u8fd0\u884c\u2014\u2014>\u540e\u9762\u57fa\u672c\u662f\u2018\u4e0b\u4e00\u6b65\u2019\u3002\u4f46\u662f\u8981\u5728\u73af\u5883\u53d8\u91cfPath\u6dfb\u52a0\u4e09\u4e2a\u8def\u5f84\uff1a\nF:\\Anaconda3-5.0.1-Windows-x86_64\\anzhuang\nF:\\Anaconda3-5.0.1-Windows-x86_64\\anzhuang\\Scripts\nF:\\Anaconda3-5.0.1-Windows-x86_64\\anzhuang\\Library\\bin\n\n\n\n\n-----\n\n\n\n-----\n\n \n\n-----\n\n     \n\n-----\n\n\n\n\n\n-----\n\n\n\n## Linux\u5b89\u88c5jupyter notebook\n\n### \u4e00\u3001\u5347\u7ea7pip\n\u7531\u4e8e\u4e4b\u524d\u5b89\u88c5\u4e86anaconda3\uff0c\u8fd9\u4f1a\u81ea\u52a8\u5b89\u88c5\u597dpython\u7684pip\u4e0b\u8f7d\u5de5\u5177\uff0c\u4e0d\u8fc7\u8fd9\u4e2apip\u7248\u672c\u53ef\u80fd\u8fc7\u4f4e\uff0c\u9700\u8981\u5148\u5347\u7ea7\n\n\npip install --upgrade pip\n\n\n\n-----\n\n\n\n### \u4e8c\u3001\u5b89\u88c5jupyter notebook\n\npip install jupyter notebook\n\n\n\n-----\n\n\n\n### \u4e09\u3001\u914d\u7f6ejupyter notebook\n1\u3001 \u5728\u4e2a\u4eba\u8d26\u6237\u4e0b\u5efa\u7acb\u914d\u7f6e\u6587\u4ef6\njupyter notebook --generate-config\n\n2\u3001Python\u73af\u5883\u4e0b\u8bbe\u7f6e\u5bc6\u7801\uff1a\n from notebook.auth import passwd\n passwd()\n\n\t\tEnter password: 123456 # \u8bbe\u7f6e\u5bc6\u7801\u4e3a123456\n\n\t\tVerify password:\n\n\t\t\t\t'sha1:d66351142f0a:9eea3d7f99e434a6837f5e73af18d03cf0353392'(\u590d\u5236\u6b64\u884c\u5bc6\u7801)\n\n ctrl+z\n \n 3\u3001\u751f\u6210\u914d\u7f6e\u6587\u4ef6\n jupyter notebook --generate-config\n \n 4\u3001\u4fee\u6539\u914d\u7f6e\u6587\u4ef6\n \u4f7f\u7528 vim \/home\/(\u7528\u6237\u540d)\/.jupyter\/jupyternotebook_config.py\u6253\u5f00\u914d\u7f6e\u6587\u4ef6\uff0c\u4fee\u6539\u5176\u4e2d\u7684\u4e00\u4e9b\u90e8\u5206\n \n c.NotebookApp.allow_root = True\n c.NotebookApp.ip = '*' \nc.NotebookApp.password = 'sha1:b39d2445079f:9b9ab99f65150e113265cb99a841a6403aa52647' #\u8fd9\u91cc\u7684\u5bc6\u7801\u662f\u521a\u521a\u751f\u6210\u7684\u5bc6\u7801\nc.NotebookApp.certfile = u'\/root\/.jupyter\/mycert.pem'\nc.NotebookApp.port= 8888\nc.NotebookApp.notebookdir = \"\/root\/ipython\"   #\u9ed8\u8ba4\u76ee\u5f55 \uff0cwindows\u662fc.NotebookApp.notebook_dir\n \n\n        \n\n   \n\n\n-----\n\n\n\n\n### \u56db\u3001\u6d4b\u8bd5\n1\u3001\u5f00\u542f\njupyter notebook\n\n2\u3001\u6d4f\u89c8\u5668\u8bbf\u95ee\u6d4b\u8bd5\n\n![](https:\/\/s1.51cto.com\/images\/blog\/201803\/28\/d97d6afa9f01691cdebe1e7f47a0aedc.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n\n\n\n\n\n\n", '#result');
+  }
+
+  function insertCodeElement(content, container){
+    container = container || document;
+    // 创建一个 div 来放置获取到的内容，这样就可以把 content 字符串内容转换成 dom
+    // 方便我们对这个 dom 进行操作（只是创建 div，并没有插入到文档，他只存在于内存中）
+    var parent = document.createElement('div');
+    parent.innerHTML = content;
+
+    // 找到 parent 中的所有 pre 标签，并遍历
+    var $pres = $(parent).find('pre');
+    $pres.each(function(index, el) {
+      var $el = $(el),
+          html = $el.html(),
+          code = document.createElement('code'),
+          elClass = $el.attr('class');
+      if(!elClass) {return};
+          // 获取 pre 标签中，class 属性中包含的本段代码所有的编程语言
+      var language = elClass.substring(6, elClass.indexOf(';'));
+
+      code.className = 'language-' + language;
+      code.innerHTML = html;
+
+      $el.html(code);
+    });
+
+    $(container).html(parent.innerHTML);
+
+    // 最后，调用 Prism 的方法来高亮代码
+    Prism.highlightAll();
+  }
+	window._bd_share_config={
+    "common":{
+      "bdText":"Linux Centos7安装anaconda3和jupyter",
+      "bdDesc":$("#abstract_bdshare").text(),
+      "bdMini":"2",
+      "bdMiniList":false,
+      "bdPic":"https://s1.51cto.com/images/201710/25/bd540a4f14d822f6e69087758699358b.jpg",
+      "bdStyle":"0",
+      "bdSize":"16"
+    },
+    "share":{}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+  setTimeout(function(){
+  	$('.bdsharebuttonbox a').removeAttr('title')
+  },1000);
+
+	var now_time = 1555424613; //当前时间
+  setInterval(function(){now_time+=0.01},10);
+
+  // 初始化页面
+  updatePage();
+  // 页面tab切换
+  zDate.visibilityAction(function () {
+    zDate.getServerTime(function (e) {
+      var updateResult = new Date(e).getTime();
+      now_time = +updateResult.toString().substr(0, 10);
+      updatePage();
+    });
+   })
+  // 定时刷新现在时间
+  setInterval(function () {
+    zDate.getServerTime(function (e) {
+      var updateResult = new Date(e).getTime();
+      now_time = +updateResult.toString().substr(0, 10);
+      updatePage();
+    });
+  }, 1000*60*2);
+  // 页面刷新
+  function updatePage() {
+    $('.presell').each(function(index, item) {
+      var end_time = $(this).data('end'); // 结束时间
+      if (!end_time) {
+        return;
+      }
+      var me = $(this);
+      if (me.lastTime) {
+        clearInterval(me.lastTime);
+        me.lastTime = null;
+      } else {
+        me.lastTime = setInterval(function() {
+          zDate.setLastTimePc(me.find('.timespan'), (end_time*1000-now_time*1000), me.lastTime, function() {
+						me.parents('.right').find('.cloumn-subscribe').removeClass('presell-color');
+						me.remove();
+						$('.pre-tips').remove();
+					});
+        }, 10);
+      }
+    });
+  }
+		//二维码显示
+		$(".group_git_box").hover(function(){
+			$(this).parents('.group_img_box').find(".group_code_box").show()
+		},function(){
+			$(this).parents('.group_img_box').find(".group_code_box").hide()
+		})  
+</script>
+</div>
+<script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/marked.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/highlight.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/detail_mp.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/detail.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/details_new.js"></script><script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/copy.js"></script>    <script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/pvlog.js"></script>
+<script>
+  $(".gotop").click(function(){$(window).scrollTop(0)})
+</script>
+
+
+    <script type="text/javascript">
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2283d46608159c3b39fc9f1178809c21";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    //自动推送链接
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+    <script type="text/javascript">
+      var _vds = _vds || [];
+      window._vds = _vds;
+      (function(){
+        _vds.push(['setAccountId', '8c51975c40edfb67']);
+        (function() {
+          var vds = document.createElement('script');
+          vds.type='text/javascript';
+          vds.async = true;
+          vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(vds, s);
+        })();
+      })();
+      //document.write(decodeURI("%3Cscript src='https://tongji.51cto.com/frontend/tj.gif' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    
+<script>
+  var uid = '';
+  var BLOG_URL = 'https://blog.51cto.com/';
+</script>
+<script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/jquery_003.js"></script>
+<script src="Linux%20Centos7%E5%AE%89%E8%A3%85anaconda3%E5%92%8Cjupyter-QiuH_CJ-51CTO%E5%8D%9A%E5%AE%A2_files/time-on-page.js" charset="utf-8"></script>
+<script>
+    (function(){
+        var wh=$(window).height(),fh=$('.Footer').outerHeight(true),hh=$('.Header').outerHeight(true)
+        $('.Content-box').css({'min-height': wh-fh-hh})
+    })()
+</script>
+
+
+<div id="zhichiBtnBox" style="position: fixed; z-index: 2147483583; box-shadow: rgba(15, 66, 76, 0.25) 0px 0px 14px 0px; width: 60px; height: 60px; border-radius: 50%; background-color: rgb(66, 133, 244); background-image: url(&quot;//www.sobot.com/chat/frame/imgs/icon.png&quot;); background-repeat: no-repeat; background-position: 18px -58px; right: 40px; bottom: 90px; display: none;"><a hidefocus="" id="zhichiBtn" style="position:relative;text-decoration: none; outline: none; font-family: Microsoft Yahei, Arial, Helvetica; color: #fff; font-size: 16px; display: inline-block; margin: 0; padding: 0; border: none; line-height:43px; float:none;width:100%;height:100%;border-radius:50%;"><span class="zc-advice-icon-btn-title" style="box-shadow: rgba(107, 113, 114, 0.15) 0px 2px 4px 0px; border: 1px solid rgb(235, 239, 240); font-family: Microsoft Yahei, Arial, Helvetica; color: rgb(85, 85, 86); font-size: 13px; margin: 0px; text-align: right; background: rgb(255, 255, 255) none repeat scroll 0% 0%; position: absolute; top: 15px; right: 70px; text-overflow: ellipsis; white-space: nowrap; word-break: normal; display: none; border-radius: 3px; padding: 0px 5px; height: 30px; line-height: 30px;">咨询在线客服</span></a><i style="position:absolute;top:0px;right:0px;padding:1px;line-height:20px;text-align:center;color:#fff;font-weight:bold;height:18px;min-width:18px;background-color:#ed5c5c;border-radius:18px;font-size:12px;display:none;font-style:normal;" id="zhichiCount"></i></div></body></html>
