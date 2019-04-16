@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>centos7 mysql数据库安装和配置 - starof - 博客园</title>
+<meta property="og:description" content="一、系统环境yum update升级以后的系统版本为[root@yl-web yl]# cat /etc/redhat-release CentOS Linux release 7.1.1503 (C">
+    <link type="text/css" rel="stylesheet" href="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-iMetro_HD.css">
+<link type="text/css" rel="stylesheet" href="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/199625.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-iMetro_HD-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/starof/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/starof/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/starof/wlwmanifest.xml">
+    <script src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019041101.js"></script><script async="" src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script>var currentBlogId=199625;var currentBlogApp='starof',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019041101.js" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/starof/"><img id="blogLogo" src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/starof/">starof</a></h1>
+<h2>我是你的骄傲吗？</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/starof/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/starof">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/starof/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/starof/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 374&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 402</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/starof/p/4680083.html">centos7 mysql数据库安装和配置</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><h1>一、系统环境</h1>
+<p>yum update升级以后的系统版本为</p>
+<div class="cnblogs_code">
+<pre>[root@yl-web yl]<span style="color: #008000;">#</span><span style="color: #008000;"> cat /etc/redhat-release </span>
+CentOS Linux release 7.1.1503 (Core) </pre>
+</div>
+<h1>二、mysql安装</h1>
+<p>一般网上给出的资料都是</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">yum install mysql</span><span style="color: #008000;">
+#</span><span style="color: #008000;">yum install mysql-server</span><span style="color: #008000;">
+#</span><span style="color: #008000;">yum install mysql-devel</span></pre>
+</div>
+<p>安装mysql和mysql-devel都成功，但是安装mysql-server失败，如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>[root@yl-web yl]<span style="color: #008000;">#</span><span style="color: #008000;"> yum install mysql-server</span>
+<span style="color: #000000;">Loaded plugins: fastestmirror
+Loading mirror speeds </span><span style="color: #0000ff;">from</span><span style="color: #000000;"> cached hostfile
+ </span>*<span style="color: #000000;"> base: mirrors.sina.cn
+ </span>*<span style="color: #000000;"> extras: mirrors.sina.cn
+ </span>*<span style="color: #000000;"> updates: mirrors.sina.cn
+No package mysql</span>-<span style="color: #000000;">server available.
+Error: Nothing to do</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>查资料发现是CentOS 7 版本将MySQL数据库软件从默认的程序列表中移除，用mariadb代替了。</p>
+<p>有两种解决办法：</p>
+<h2>1、方法一：安装mariadb</h2>
+<p>MariaDB数据库管理系统是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。<span style="color: #0000ff;">MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。</span></p>
+<p>安装mariadb，大小59 M。</p>
+<div class="cnblogs_code">
+<pre>[root@yl-web yl]<span style="color: #008000;">#</span><span style="color: #008000;"> yum install mariadb-server mariadb </span></pre>
+</div>
+<p>mariadb数据库的相关命令是：</p>
+<p>systemctl start mariadb &nbsp;#启动MariaDB</p>
+<p>systemctl stop mariadb &nbsp;#停止MariaDB</p>
+<p>systemctl restart mariadb &nbsp;#重启MariaDB</p>
+<p>systemctl enable mariadb &nbsp;#设置开机启动</p>
+<p>所以先启动数据库</p>
+<div class="cnblogs_code">
+<pre>[root@yl-web yl]<span style="color: #008000;">#</span><span style="color: #008000;"> systemctl start mariadb</span></pre>
+</div>
+<p>然后就可以正常使用mysql了</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>[root@yl-web yl]<span style="color: #008000;">#</span><span style="color: #008000;"> mysql -u root -p</span>
+<span style="color: #000000;">Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; </span><span style="color: #0000ff;">or</span><span style="color: #000000;"> \g.
+Your MariaDB connection id </span><span style="color: #0000ff;">is</span> 3<span style="color: #000000;">
+Server version: </span>5.5.41-<span style="color: #000000;">MariaDB MariaDB Server
+
+Copyright (c) </span>2000, 2014, Oracle, MariaDB Corporation Ab <span style="color: #0000ff;">and</span><span style="color: #000000;"> others.
+
+Type </span><span style="color: #800000;">'</span><span style="color: #800000;">help;</span><span style="color: #800000;">'</span> <span style="color: #0000ff;">or</span> <span style="color: #800000;">'</span><span style="color: #800000;">\h</span><span style="color: #800000;">'</span> <span style="color: #0000ff;">for</span> help. Type <span style="color: #800000;">'</span><span style="color: #800000;">\c</span><span style="color: #800000;">'</span><span style="color: #000000;"> to clear the current input statement.
+
+MariaDB [(none)]</span>&gt;<span style="color: #000000;"> show databases;
+</span>+--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+4 rows <span style="color: #0000ff;">in</span> set (0.00<span style="color: #000000;"> sec)
+
+MariaDB [(none)]</span>&gt; </pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>安装mariadb后显示的也是 <span style="color: #000000;">MariaDB [(none)]&gt; </span>，可能看起来有点不习惯。下面是第二种方法。</p>
+<h2>2、方法二：官网下载安装mysql-server</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> rpm -ivh mysql-community-release-el7-5.noarch.rpm</span><span style="color: #008000;">
+#</span><span style="color: #008000;"> yum install mysql-community-server</span></pre>
+</div>
+<p>安装成功后重启mysql服务。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;"> service mysqld restart</span></pre>
+</div>
+<p>初次安装mysql，root账户没有密码。</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>[root@yl-web yl]<span style="color: #008000;">#</span><span style="color: #008000;"> mysql -u root </span>
+Welcome to the MySQL monitor.  Commands end with ; <span style="color: #0000ff;">or</span><span style="color: #000000;"> \g.
+Your MySQL connection id </span><span style="color: #0000ff;">is</span> 3<span style="color: #000000;">
+Server version: </span>5.6.26<span style="color: #000000;"> MySQL Community Server (GPL)
+
+Copyright (c) </span>2000, 2015, Oracle <span style="color: #0000ff;">and</span>/<span style="color: #0000ff;">or</span><span style="color: #000000;"> its affiliates. All rights reserved.
+
+Oracle </span><span style="color: #0000ff;">is</span> a registered trademark of Oracle Corporation <span style="color: #0000ff;">and</span>/<span style="color: #0000ff;">or</span><span style="color: #000000;"> its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type </span><span style="color: #800000;">'</span><span style="color: #800000;">help;</span><span style="color: #800000;">'</span> <span style="color: #0000ff;">or</span> <span style="color: #800000;">'</span><span style="color: #800000;">\h</span><span style="color: #800000;">'</span> <span style="color: #0000ff;">for</span> help. Type <span style="color: #800000;">'</span><span style="color: #800000;">\c</span><span style="color: #800000;">'</span><span style="color: #000000;"> to clear the current input statement.
+
+mysql</span>&gt;<span style="color: #000000;"> show databases;
+</span>+--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+4 rows <span style="color: #0000ff;">in</span> set (0.01<span style="color: #000000;"> sec)
+
+mysql</span>&gt; </pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>设置密码</p>
+<div class="cnblogs_code">
+<pre>mysql&gt; set password <span style="color: #0000ff;">for</span> <span style="color: #800000;">'</span><span style="color: #800000;">root</span><span style="color: #800000;">'</span>@<span style="color: #800000;">'</span><span style="color: #800000;">localhost</span><span style="color: #800000;">'</span> =password(<span style="color: #800000;">'</span><span style="color: #800000;">password</span><span style="color: #800000;">'</span><span style="color: #000000;">);
+Query OK, 0 rows affected (</span>0.00<span style="color: #000000;"> sec)
+
+mysql</span>&gt; </pre>
+</div>
+<p>不需要重启数据库即可生效。</p>
+<p>在mysql安装过程中如下内容：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>Installed:<br>&nbsp; mysql-community-client.x86_64 0:5.6.26-2.el7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mysql-community-devel.x86_64 0:5.6.26-2.el7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>&nbsp; mysql-community-libs.x86_64 0:5.6.26-2.el7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mysql-community-server.x86_64 0:5.6.26-2.el7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br><br>Dependency Installed:<br>&nbsp; mysql-community-common.x86_64 0:5.6.26-2.el7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br><br>Replaced:<br>&nbsp; mariadb.x86_64 1:5.5.41-2.el7_0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mariadb-devel.x86_64 1:5.5.41-2.el7_0&nbsp;&nbsp; mariadb-libs.x86_64 1:5.5.41-2.el7_0 &nbsp;<br>&nbsp; mariadb-server.x86_64 1:5.5.41-2.el7_0&nbsp; </pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>所以安装完以后mariadb自动就被替换了，将不再生效。</p>
+<div class="cnblogs_code">
+<pre>[root@yl-web yl]<span style="color: #008000;">#</span><span style="color: #008000;"> rpm -qa |grep mariadb</span>
+[root@yl-web yl]<span style="color: #008000;">#</span> </pre>
+</div>
+<h1>三、配置mysql</h1>
+<h2>1、编码</h2>
+<p>mysql配置文件为/etc/my.cnf</p>
+<p>最后加上编码配置</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">[mysql]
+default</span>-character-set =utf8</pre>
+</div>
+<p>这里的字符编码必须和/usr/share/mysql/charsets/Index.xml中一致。</p>
+<p><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/271615224693150.png" alt=""></p>
+<h2>2、远程连接设置</h2>
+<p>把在所有数据库的所有表的所有权限赋值给位于所有IP地址的root用户。</p>
+<div class="cnblogs_code">
+<pre>mysql&gt; grant all privileges on *.* to root@<span style="color: #800000;">'</span><span style="color: #800000;">%</span><span style="color: #800000;">'</span>identified by <span style="color: #800000;">'</span><span style="color: #800000;">password</span><span style="color: #800000;">';</span></pre>
+</div>
+<p>如果是新用户而不是root，则要先新建用户</p>
+<div class="cnblogs_code">
+<pre>mysql&gt;create user <span style="color: #800000;">'</span><span style="color: #800000;">username</span><span style="color: #800000;">'</span>@<span style="color: #800000;">'</span><span style="color: #800000;">%</span><span style="color: #800000;">'</span> identified by <span style="color: #800000;">'</span><span style="color: #800000;">password</span><span style="color: #800000;">'</span>;  </pre>
+</div>
+<p>此时就可以进行远程连接了。</p>
+<p>&nbsp;</p>
+<p>本文作者<a href="http://www.cnblogs.com/starof/" target="_blank">starof</a>,因知识本身在变化，作者也在不断学习成长，文章内容也不定时更新，为避免误导读者，方便追根溯源，请诸位转载注明出处：<a href="http://www.cnblogs.com/starof/p/4680083.html">http://www.cnblogs.com/starof/p/4680083.html</a>有问题欢迎与我讨论，共同进步。</p></div><div id="MySignature" style="display: block;"><p><strong>如果觉得本文对您有帮助~可以<span style="display: none">支付宝(左)或</span>微信支持一下：</strong></p>
+<br>
+<p style="display: none"><strong>看到小伙伴打赏时给我写一些鼓励的话，真的非常感动，谢谢你们。</strong></p>
+<br>
+<p style="display: none"><strong>我开了个微信公众号（<span>第三个二维码</span>）用来分享自己的职场英语相关学习经验，感兴趣可以关注，我会不断更新～</strong></p><br>
+<div class="pay_img"><img style="display: none" class="alipay" src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/starof_zfb.bmp" alt="支付宝打赏"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/starof_wx.bmp" alt="微信打赏"><img style="display: none" src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/starof_gzh.bmp" alt="微信公众号"></div><br></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/starof/category/639386.html" target="_blank">linux</a></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/starof/tag/linux/">linux</a>, <a href="https://www.cnblogs.com/starof/tag/mysql/">mysql</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4680083,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('baefb75f-c6ad-e011-8673-842b2b196315');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/starof/" target="_blank"><img src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20170427224142.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/starof/">starof</a><br>
+            <a href="http://home.cnblogs.com/u/starof/followees">关注 - 56</a><br>
+            <a href="http://home.cnblogs.com/u/starof/followers">粉丝 - 878</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('baefb75f-c6ad-e011-8673-842b2b196315');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4680083,'Digg')">
+        <span class="diggnum" id="digg_count">53</span>
+    </div>
+    <div class="buryit" onclick="votePost(4680083,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/starof/p/4679959.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/starof/p/4679959.html" title="发布于2015-07-27 13:58">查看centos系统版本</a><br><a href="https://www.cnblogs.com/starof/p/4685999.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/starof/p/4685999.html" title="发布于2015-07-29 16:47">apache httpd服务器403 forbidden的问题</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2015-07-27 17:07</span> <a href="https://www.cnblogs.com/starof/">starof</a> 阅读(<span id="post_view_count">236889</span>) 评论(<span id="post_comment_count">24</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=4680083" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(4680083);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=199625,cb_entryId=4680083,cb_blogApp=currentBlogApp,cb_blogUserGuid='baefb75f-c6ad-e011-8673-842b2b196315',cb_entryCreatedDate='2015/7/27 17:07:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3236329" class="layer">#1楼</a><a name="3236329" id="comment_anchor_3236329"></a>  <span class="comment_date">2015-07-27 17:21</span> <a id="a_comment_author_3236329" href="https://www.cnblogs.com/huyong/" target="_blank">yonghu86</a> <a href="http://msg.cnblogs.com/send/yonghu86" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3236329" class="blog_comment_body">好文，支持。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3236329,'Digg',this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3236329,'Bury',this)">反对(0)</a></div><span id="comment_3236329_avatar" style="display:none;">http://pic.cnblogs.com/face/157572/20150613183043.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3236485" class="layer">#2楼</a><a name="3236485" id="comment_anchor_3236485"></a>  <span class="comment_date">2015-07-27 22:21</span> <a id="a_comment_author_3236485" href="https://www.cnblogs.com/lzhp/" target="_blank">haiziguo</a> <a href="http://msg.cnblogs.com/send/haiziguo" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3236485" class="blog_comment_body">妹子，要不要什么都要学啊</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3236485,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3236485,'Bury',this)">反对(0)</a></div><span id="comment_3236485_avatar" style="display:none;">http://pic.cnblogs.com/face/300932/20131003210249.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3259712" class="layer">#3楼</a><a name="3259712" id="comment_anchor_3259712"></a>  <span class="comment_date">2015-09-04 10:07</span> <a id="a_comment_author_3259712" href="https://www.cnblogs.com/fishparadise/" target="_blank">FishParadise</a> <a href="http://msg.cnblogs.com/send/FishParadise" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3259712" class="blog_comment_body"><a href="#3236485" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3236485);">@</a>
+haiziguo<br>LZ是妹纸？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3259712,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3259712,'Bury',this)">反对(0)</a></div><span id="comment_3259712_avatar" style="display:none;">http://pic.cnblogs.com/face/772143/20150609145106.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3259725" class="layer">#4楼</a><a name="3259725" id="comment_anchor_3259725"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2015-09-04 10:27</span> <a id="a_comment_author_3259725" href="https://www.cnblogs.com/starof/" target="_blank">starof</a> <a href="http://msg.cnblogs.com/send/starof" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3259725" class="blog_comment_body"><a href="#3259712" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3259712);">@</a>
+FishParadise<br>楼主是人见人爱，花见花开的程序媛~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3259725,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3259725,'Bury',this)">反对(0)</a></div><span id="comment_3259725_avatar" style="display:none;">http://pic.cnblogs.com/face/315302/20170427224142.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3403947" class="layer">#5楼</a><a name="3403947" id="comment_anchor_3403947"></a>  <span class="comment_date">2016-04-09 14:48</span> <a id="a_comment_author_3403947" href="http://home.cnblogs.com/u/932293/" target="_blank">杰出的梦想</a> <a href="http://msg.cnblogs.com/send/%E6%9D%B0%E5%87%BA%E7%9A%84%E6%A2%A6%E6%83%B3" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3403947" class="blog_comment_body">楼主太棒了，谢谢楼主</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3403947,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3403947,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3544008" class="layer">#6楼</a><a name="3544008" id="comment_anchor_3544008"></a>  <span class="comment_date">2016-10-30 00:20</span> <a id="a_comment_author_3544008" href="http://home.cnblogs.com/u/976845/" target="_blank">红色石头-cn</a> <a href="http://msg.cnblogs.com/send/%E7%BA%A2%E8%89%B2%E7%9F%B3%E5%A4%B4-cn" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3544008" class="blog_comment_body">参照你的博文，解决了vps安装mysql的问题，谢谢博主！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3544008,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3544008,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3584252" class="layer">#7楼</a><a name="3584252" id="comment_anchor_3584252"></a>  <span class="comment_date">2016-12-19 11:10</span> <a id="a_comment_author_3584252" href="https://www.cnblogs.com/yuexue/" target="_blank">yuexue0</a> <a href="http://msg.cnblogs.com/send/yuexue0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3584252" class="blog_comment_body">好文，成功安装</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3584252,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3584252,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3655579" class="layer">#8楼</a><a name="3655579" id="comment_anchor_3655579"></a>  <span class="comment_date">2017-03-30 14:09</span> <a id="a_comment_author_3655579" href="https://www.cnblogs.com/zhangqunshi/" target="_blank">kris_zhang</a> <a href="http://msg.cnblogs.com/send/kris_zhang" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3655579" class="blog_comment_body">好文，支持。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3655579,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3655579,'Bury',this)">反对(0)</a></div><span id="comment_3655579_avatar" style="display:none;">http://pic.cnblogs.com/face/873874/20170329010838.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3697628" class="layer">#9楼</a><a name="3697628" id="comment_anchor_3697628"></a>  <span class="comment_date">2017-05-22 10:27</span> <a id="a_comment_author_3697628" href="https://www.cnblogs.com/sunshinekevin/" target="_blank">SunshineKevin</a> <a href="http://msg.cnblogs.com/send/SunshineKevin" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3697628" class="blog_comment_body">支持！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3697628,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3697628,'Bury',this)">反对(0)</a></div><span id="comment_3697628_avatar" style="display:none;">http://pic.cnblogs.com/face/1151091/20170421102055.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3707866" class="layer">#10楼</a><a name="3707866" id="comment_anchor_3707866"></a>  <span class="comment_date">2017-06-05 23:19</span> <a id="a_comment_author_3707866" href="https://www.cnblogs.com/jingmingjiayuan/" target="_blank">zzblydia</a> <a href="http://msg.cnblogs.com/send/zzblydia" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3707866" class="blog_comment_body">经典好文 感谢分享<br>看了教程安装省了太多时间 细致简洁</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3707866,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3707866,'Bury',this)">反对(0)</a></div><span id="comment_3707866_avatar" style="display:none;">http://pic.cnblogs.com/face/792486/20150731090032.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3749817" class="layer">#11楼</a><a name="3749817" id="comment_anchor_3749817"></a>  <span class="comment_date">2017-08-03 13:35</span> <a id="a_comment_author_3749817" href="https://www.cnblogs.com/zhaopei/" target="_blank">农码一生</a> <a href="http://msg.cnblogs.com/send/%E5%86%9C%E7%A0%81%E4%B8%80%E7%94%9F" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3749817" class="blog_comment_body">支持。好妹子。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3749817,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3749817,'Bury',this)">反对(0)</a></div><span id="comment_3749817_avatar" style="display:none;">http://pic.cnblogs.com/face/208266/20151201100731.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3773774" class="layer">#12楼</a><a name="3773774" id="comment_anchor_3773774"></a>  <span class="comment_date">2017-09-03 08:39</span> <a id="a_comment_author_3773774" href="https://www.cnblogs.com/vitoCoder/" target="_blank">VitoCoder</a> <a href="http://msg.cnblogs.com/send/VitoCoder" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3773774" class="blog_comment_body">谢谢博主, 直接解决了我的问题^^</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3773774,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3773774,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3789527" class="layer">#13楼</a><a name="3789527" id="comment_anchor_3789527"></a>  <span class="comment_date">2017-09-19 13:53</span> <a id="a_comment_author_3789527" href="http://home.cnblogs.com/u/1241093/" target="_blank">长安怎乱</a> <a href="http://msg.cnblogs.com/send/%E9%95%BF%E5%AE%89%E6%80%8E%E4%B9%B1" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3789527" class="blog_comment_body">不错不错，收藏了。<br><br>推荐下，分库分表中间件 Sharding-JDBC 源码解析 17 篇：<a href="http://www.yunai.me/categories/Sharding-JDBC/?cnblog" target="_blank">http://www.yunai.me/categories/Sharding-JDBC/?cnblog</a>&amp;601<br><br><br>嶙</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3789527,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3789527,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3838934" class="layer">#14楼</a><a name="3838934" id="comment_anchor_3838934"></a>  <span class="comment_date">2017-11-13 10:48</span> <a id="a_comment_author_3838934" href="https://www.cnblogs.com/dnpp/" target="_blank">你是麻瓜吗</a> <a href="http://msg.cnblogs.com/send/%E4%BD%A0%E6%98%AF%E9%BA%BB%E7%93%9C%E5%90%97" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3838934" class="blog_comment_body">收藏,收藏</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3838934,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3838934,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3848166" class="layer">#15楼</a><a name="3848166" id="comment_anchor_3848166"></a>  <span class="comment_date">2017-11-23 11:01</span> <a id="a_comment_author_3848166" href="http://home.cnblogs.com/u/424021/" target="_blank">guchuanhang</a> <a href="http://msg.cnblogs.com/send/guchuanhang" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3848166" class="blog_comment_body">写的很好，为了方便安装，完成了一个shell脚本。有需要的同学，可以使用一下 <a href="http://blog.csdn.net/guchuanhang/article/details/78612100" target="_blank">http://blog.csdn.net/guchuanhang/article/details/78612100</a></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3848166,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3848166,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3893739" class="layer">#16楼</a><a name="3893739" id="comment_anchor_3893739"></a>  <span class="comment_date">2018-01-19 17:26</span> <a id="a_comment_author_3893739" href="https://www.cnblogs.com/huangtao1996/" target="_blank">黄滔1996</a> <a href="http://msg.cnblogs.com/send/%E9%BB%84%E6%BB%941996" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3893739" class="blog_comment_body">非常有用</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3893739,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3893739,'Bury',this)">反对(0)</a></div><span id="comment_3893739_avatar" style="display:none;">http://pic.cnblogs.com/face/794972/20150806133548.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3895628" class="layer">#17楼</a><a name="3895628" id="comment_anchor_3895628"></a>  <span class="comment_date">2018-01-23 12:31</span> <a id="a_comment_author_3895628" href="https://www.cnblogs.com/e8sp/" target="_blank">寒@鹏</a> <a href="http://msg.cnblogs.com/send/%E5%AF%92%40%E9%B9%8F" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3895628" class="blog_comment_body">MariaDB 安装成功</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3895628,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3895628,'Bury',this)">反对(0)</a></div><span id="comment_3895628_avatar" style="display:none;">http://pic.cnblogs.com/face/28349/20171208085716.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3939201" class="layer">#18楼</a><a name="3939201" id="comment_anchor_3939201"></a>  <span class="comment_date">2018-04-01 11:12</span> <a id="a_comment_author_3939201" href="https://www.cnblogs.com/zhoudelun/" target="_blank">周德伦</a> <a href="http://msg.cnblogs.com/send/%E5%91%A8%E5%BE%B7%E4%BC%A6" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3939201" class="blog_comment_body">service mysqld restart<br>起不来。。。。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3939201,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3939201,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3954494" class="layer">#19楼</a><a name="3954494" id="comment_anchor_3954494"></a>  <span class="comment_date">2018-04-18 11:03</span> <a id="a_comment_author_3954494" href="http://home.cnblogs.com/u/1378446/" target="_blank">连天芶仁</a> <a href="http://msg.cnblogs.com/send/%E8%BF%9E%E5%A4%A9%E8%8A%B6%E4%BB%81" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3954494" class="blog_comment_body">Centos7下Python3.6安装mysqlclient模块失败<br>解决方法是<br>yum install python3.6u-devel mysql-community-devel -y<br>然后再重新安装mysqlclient<br>pip3.6 install mysqlclient</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3954494,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3954494,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#4045980" class="layer">#20楼</a><a name="4045980" id="comment_anchor_4045980"></a>  <span class="comment_date">2018-08-19 19:28</span> <a id="a_comment_author_4045980" href="https://www.cnblogs.com/renshen555/" target="_blank">renshen4322</a> <a href="http://msg.cnblogs.com/send/renshen4322" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4045980" class="blog_comment_body">用的第二种方法有效，注意Centos7下装mysql,要在前面，要是先装了docker并配置了mysql容器，再装centos下的mysql这样装不成功，亲测</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4045980,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4045980,'Bury',this)">反对(0)</a></div><span id="comment_4045980_avatar" style="display:none;">http://pic.cnblogs.com/face/581105/20150514105151.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#4047269" class="layer">#21楼</a><a name="4047269" id="comment_anchor_4047269"></a>  <span class="comment_date">2018-08-21 15:10</span> <a id="a_comment_author_4047269" href="http://home.cnblogs.com/u/1378446/" target="_blank">连天芶仁</a> <a href="http://msg.cnblogs.com/send/%E8%BF%9E%E5%A4%A9%E8%8A%B6%E4%BB%81" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4047269" class="blog_comment_body">现在安装mariadb-server都会定位到安装mysql-community-server，有人知道怎么解决吗</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4047269,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4047269,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#4113901" class="layer">#22楼</a><a name="4113901" id="comment_anchor_4113901"></a>  <span class="comment_date">2018-11-14 09:24</span> <a id="a_comment_author_4113901" href="https://www.cnblogs.com/ht111/" target="_blank">一个传说</a> <a href="http://msg.cnblogs.com/send/%E4%B8%80%E4%B8%AA%E4%BC%A0%E8%AF%B4" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4113901" class="blog_comment_body">有没有centos6.4安装mysql的详细步骤？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4113901,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4113901,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#4180379" class="layer">#23楼</a><a name="4180379" id="comment_anchor_4180379"></a>  <span class="comment_date">2019-02-15 13:57</span> <a id="a_comment_author_4180379" href="https://www.cnblogs.com/ridong12345/" target="_blank">退而织网</a> <a href="http://msg.cnblogs.com/send/%E9%80%80%E8%80%8C%E7%BB%87%E7%BD%91" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4180379" class="blog_comment_body">好文</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4180379,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4180379,'Bury',this)">反对(0)</a></div><span id="comment_4180379_avatar" style="display:none;">http://pic.cnblogs.com/face/1442630/20180716112900.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#4183181" class="layer">#24楼</a><a name="4183181" id="comment_anchor_4183181"></a><span id="comment-maxId" style="display:none;">4183181</span><span id="comment-maxDate" style="display:none;">2019/2/19 16:06:05</span>  <span class="comment_date">2019-02-19 16:06</span> <a id="a_comment_author_4183181" href="https://www.cnblogs.com/qjlbky/" target="_blank">北方丶有佳人</a> <a href="http://msg.cnblogs.com/send/%E5%8C%97%E6%96%B9%E4%B8%B6%E6%9C%89%E4%BD%B3%E4%BA%BA" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4183181" class="blog_comment_body">大赞！！！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4183181,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4183181,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://gitee.com/enterprises?from=bky-2" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-gitee')">【推荐】专业便捷的企业级代码托管服务 - Gitee 码云</a><br><a href="https://cloud.tencent.com/redirect.php?redirect=1014&amp;cps_key=285f996e1cd76decfb796e3eb6d1723b&amp;from=console" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-腾讯云')">【推荐】云服务器、云数据库特惠，服务更稳，速度更快，价格更优</a><br><a href="https://www.bagevent.com/event/2468856" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-GAITC')">【活动】2019第四届全球人工技术大会解码“智能+时代”</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="centos7%20mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE%20-%20starof%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CP7ji5rb1OECFdRxvQodYCMA9A"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/weifeng1463/p/6805503.html" target="_blank" onclick="clickRecomItmem(6805503)">centos7 mysql数据库安装和配置</a><br>·  <a href="https://www.cnblogs.com/lemon-Net-Skill/p/10024514.html" target="_blank" onclick="clickRecomItmem(10024514)">centos7mysql数据库安装和配置</a><br>·  <a href="https://www.cnblogs.com/yhoralce/p/8326136.html" target="_blank" onclick="clickRecomItmem(8326136)">centos7 mysql数据库安装和配置</a><br>·  <a href="https://www.cnblogs.com/xbblogs/p/7712285.html" target="_blank" onclick="clickRecomItmem(7712285)">CentOS7安装Mysql</a><br>·  <a href="https://www.cnblogs.com/bigbrotherer/p/7241845.html" target="_blank" onclick="clickRecomItmem(7241845)">CentOS7安装MySQL</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CP_ji5rb1OECFdRxvQodYCMA9A"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/623887/" target="_blank">意大利对亚马逊展开反垄断调查 涉滥用主导地位</a><br> ·  <a href="https://news.cnblogs.com/n/623886/" target="_blank">除了期待已久的黑暗模式，我们还能从 iOS 13 的更新中看到什么</a><br> ·  <a href="https://news.cnblogs.com/n/623885/" target="_blank">物理学家认为虫洞可能存在但不是太空旅行的捷径</a><br> ·  <a href="https://news.cnblogs.com/n/623883/" target="_blank">小程序不再小</a><br> ·  <a href="https://news.cnblogs.com/n/623882/" target="_blank">华为加速推动Cloud VR规模商用 今年目标10万级用户</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/starof/">starof</a><br>园龄：<a href="https://home.cnblogs.com/u/starof/" title="入园时间：2011-07-14">7年9个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/starof/followers/">878</a><br>关注：<a href="https://home.cnblogs.com/u/starof/followees/">56</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('baefb75f-c6ad-e011-8673-842b2b196315')">+加关注</a></div><script>getFollowStatus('baefb75f-c6ad-e011-8673-842b2b196315')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/03/01');return false;">&lt;</a></td><td align="center">2019年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/05/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center"><a href="https://www.cnblogs.com/starof/archive/2019/04/06.html"><u>6</u></a></td></tr><tr><td class="CalWeekendDay" align="center"><a href="https://www.cnblogs.com/starof/archive/2019/04/07.html"><u>7</u></a></td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td class="CalTodayDay" align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/starof/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/starof/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/starof/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/starof/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/starof/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/starof/tag/javascript/">javascript</a>(26)</li><li><a href="https://www.cnblogs.com/starof/tag/angular/">angular</a>(19)</li><li><a href="https://www.cnblogs.com/starof/tag/jquery/">jquery</a>(14)</li><li><a href="https://www.cnblogs.com/starof/tag/linux/">linux</a>(13)</li><li><a href="https://www.cnblogs.com/starof/tag/css3/">css3</a>(11)</li><li><a href="https://www.cnblogs.com/starof/tag/django/">django</a>(9)</li><li><a href="https://www.cnblogs.com/starof/tag/es6/">es6</a>(8)</li><li><a href="https://www.cnblogs.com/starof/tag/html/">html</a>(7)</li><li><a href="https://www.cnblogs.com/starof/tag/python/">python</a>(7)</li><li><a href="https://www.cnblogs.com/starof/tag/UE/">UE</a>(6)</li><li><a href="https://www.cnblogs.com/starof/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/starof/category/1162302.html">Angular(36)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/starof/category/1076026.html">angularjs</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/starof/category/780076.html">bugList(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/starof/category/1010671.html">es6(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/starof/category/617762.html">html+css(26)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/starof/category/692050.html">html5+css3(29)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/starof/category/952729.html">interview(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/starof/category/626164.html">JavaScript(50)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/starof/category/621419.html">jQuery(25)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/starof/category/622012.html">life+thought(18)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/starof/category/639386.html">linux(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/starof/category/943168.html">network(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/starof/category/765714.html">node.js(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/starof/category/637526.html">openstack+ovirt(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/starof/category/699905.html">other(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/starof/category/654196.html">python+django(14)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="https://www.cnblogs.com/starof/category/1377571.html">react(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="https://www.cnblogs.com/starof/category/1153718.html">something(39)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="https://www.cnblogs.com/starof/category/720384.html">UI+UE(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="https://www.cnblogs.com/starof/category/1219740.html">vue(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="https://www.cnblogs.com/starof/category/707104.html">web(26)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="https://www.cnblogs.com/starof/category/744519.html">webapp(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="https://www.cnblogs.com/starof/category/1044643.html">职场english(14)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/starof/archive/2019/04.html">2019年4月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/starof/archive/2019/03.html">2019年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/starof/archive/2019/02.html">2019年2月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/starof/archive/2019/01.html">2019年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/starof/archive/2018/12.html">2018年12月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/starof/archive/2018/11.html">2018年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/starof/archive/2018/09.html">2018年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/starof/archive/2018/08.html">2018年8月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/starof/archive/2018/07.html">2018年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/starof/archive/2018/06.html">2018年6月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/starof/archive/2018/05.html">2018年5月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/starof/archive/2018/04.html">2018年4月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/starof/archive/2018/03.html">2018年3月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/starof/archive/2018/02.html">2018年2月 (29)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/starof/archive/2018/01.html">2018年1月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/starof/archive/2017/11.html">2017年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/starof/archive/2017/10.html">2017年10月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="https://www.cnblogs.com/starof/archive/2017/09.html">2017年9月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="https://www.cnblogs.com/starof/archive/2017/08.html">2017年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="https://www.cnblogs.com/starof/archive/2017/07.html">2017年7月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="https://www.cnblogs.com/starof/archive/2017/06.html">2017年6月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="https://www.cnblogs.com/starof/archive/2017/05.html">2017年5月 (19)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="https://www.cnblogs.com/starof/archive/2017/04.html">2017年4月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="https://www.cnblogs.com/starof/archive/2017/03.html">2017年3月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="https://www.cnblogs.com/starof/archive/2017/02.html">2017年2月 (28)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="https://www.cnblogs.com/starof/archive/2017/01.html">2017年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="https://www.cnblogs.com/starof/archive/2016/12.html">2016年12月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_27" href="https://www.cnblogs.com/starof/archive/2016/11.html">2016年11月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_28" href="https://www.cnblogs.com/starof/archive/2016/10.html">2016年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_29" href="https://www.cnblogs.com/starof/archive/2016/09.html">2016年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_30" href="https://www.cnblogs.com/starof/archive/2016/08.html">2016年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_31" href="https://www.cnblogs.com/starof/archive/2016/07.html">2016年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_32" href="https://www.cnblogs.com/starof/archive/2016/06.html">2016年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_33" href="https://www.cnblogs.com/starof/archive/2016/05.html">2016年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_34" href="https://www.cnblogs.com/starof/archive/2016/04.html">2016年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_35" href="https://www.cnblogs.com/starof/archive/2016/03.html">2016年3月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_36" href="https://www.cnblogs.com/starof/archive/2016/02.html">2016年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_37" href="https://www.cnblogs.com/starof/archive/2016/01.html">2016年1月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_38" href="https://www.cnblogs.com/starof/archive/2015/12.html">2015年12月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_39" href="https://www.cnblogs.com/starof/archive/2015/11.html">2015年11月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_40" href="https://www.cnblogs.com/starof/archive/2015/10.html">2015年10月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_41" href="https://www.cnblogs.com/starof/archive/2015/09.html">2015年9月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_42" href="https://www.cnblogs.com/starof/archive/2015/08.html">2015年8月 (25)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_43" href="https://www.cnblogs.com/starof/archive/2015/07.html">2015年7月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_44" href="https://www.cnblogs.com/starof/archive/2015/06.html">2015年6月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_45" href="https://www.cnblogs.com/starof/archive/2015/05.html">2015年5月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_46" href="https://www.cnblogs.com/starof/archive/2015/04.html">2015年4月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_47" href="https://www.cnblogs.com/starof/archive/2015/03.html">2015年3月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_48" href="https://www.cnblogs.com/starof/archive/2015/02.html">2015年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_49" href="https://www.cnblogs.com/starof/archive/2015/01.html">2015年1月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_50" href="https://www.cnblogs.com/starof/archive/2014/12.html">2014年12月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_51" href="https://www.cnblogs.com/starof/archive/2014/11.html">2014年11月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_52" href="https://www.cnblogs.com/starof/archive/2014/10.html">2014年10月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_articlecategory" class="catListArticleCategory sidebar-block">
+<h3 class="catListTitle">文章分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="https://www.cnblogs.com/starof/category/1219739.html">vue</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_imagecategory" class="catListImageCategory sidebar-block">
+<h3 class="catListTitle">相册</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_3_Link_0" href="https://www.cnblogs.com/starof/gallery/882120.html" rel="nofollow">life(7)</a> </li>
+
+<li><a id="CatList_LinkList_3_Link_1" href="https://www.cnblogs.com/starof/gallery/881724.html" rel="nofollow">爆照会增加中星概率(3)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	443277
+	</li>
+	<li class="liRank">
+		排名 -	438
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/10665510.html#4228895">1. Re:Angular结构型指令，模块和样式</a></li>
+        <li class="recent_comment_body">ngIf 源码在哪里找到的啊？</li>
+        <li class="recent_comment_author">--szy-du</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/4512284.html#4222134">2. Re:深入理解css中vertical-align属性</a></li>
+        <li class="recent_comment_body">这么复杂</li>
+        <li class="recent_comment_author">--lm1988</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/4459991.html#4220226">3. Re:::before和::after伪元素的用法</a></li>
+        <li class="recent_comment_body">像我们这种对前端不是很精通的小白,真是有种如遇甘霖的感觉.希望楼主能坚持下去,我会一直关注的,文章写的太好了.</li>
+        <li class="recent_comment_author">--孤独的星星</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/9466219.html#4210735">4. Re:吉他——和弦转换</a></li>
+        <li class="recent_comment_body">支持！想知道博主吉他到什么水平了</li>
+        <li class="recent_comment_author">--nobody-junior</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/5194716.html#4186792">5. Re:windows下nodejs环境配置</a></li>
+        <li class="recent_comment_body"><a href="" target="_blank"></a></li>
+        <li class="recent_comment_author">--xiaoyan2017</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/4286268.html#4185899">6. Re:Ubuntu 12.04 DNS服务器的配置方法</a></li>
+        <li class="recent_comment_body">第四大步骤 是必须的吗？</li>
+        <li class="recent_comment_author">--小小潇潇</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/4685999.html#4185004">7. Re:apache httpd服务器403 forbidden的问题</a></li>
+        <li class="recent_comment_body">你4年前的文章，解决我现在的问题，非常感谢！</li>
+        <li class="recent_comment_author">--bboqq</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/5056519.html#4184545">8. Re:nodejs模块——网络编程模块</a></li>
+        <li class="recent_comment_body">变量有个写错了 hhhhh</li>
+        <li class="recent_comment_author">--suchi</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/4680083.html#4183181">9. Re:centos7 mysql数据库安装和配置</a></li>
+        <li class="recent_comment_body">大赞！！！</li>
+        <li class="recent_comment_author">--北方丶有佳人</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/starof/p/4680083.html#4180379">10. Re:centos7 mysql数据库安装和配置</a></li>
+        <li class="recent_comment_body">好文</li>
+        <li class="recent_comment_author">--退而织网</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/starof/p/4680083.html">1. centos7 mysql数据库安装和配置(236887)</a></li><li><a href="https://www.cnblogs.com/starof/p/4988516.html">2. js生成[n,m]的随机数(162916)</a></li><li><a href="https://www.cnblogs.com/starof/p/4459991.html">3. ::before和::after伪元素的用法(105779)</a></li><li><a href="https://www.cnblogs.com/starof/p/5194716.html">4. windows下nodejs环境配置(88609)</a></li><li><a href="https://www.cnblogs.com/starof/p/4106904.html">5. javaScript事件（五）事件类型之鼠标事件(76285)</a></li><li><a href="https://www.cnblogs.com/starof/p/4968769.html">6. css3常用动画+动画库(65915)</a></li><li><a href="https://www.cnblogs.com/starof/p/4709805.html">7. ssh连接失败，排错经验(65599)</a></li><li><a href="https://www.cnblogs.com/starof/p/5038300.html">8. nodejs模块——fs模块(51530)</a></li><li><a href="https://www.cnblogs.com/starof/p/4229017.html">9. linux tar命令简介(46202)</a></li><li><a href="https://www.cnblogs.com/starof/p/5215845.html">10. jquery——移动端滚动条插件iScroll.js(40419)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/starof/p/4933907.html">1. jquery——九宫格大转盘抽奖(25)</a></li><li><a href="https://www.cnblogs.com/starof/p/4680083.html">2. centos7 mysql数据库安装和配置(24)</a></li><li><a href="https://www.cnblogs.com/starof/p/4593741.html">3. html5全局属性(17)</a></li><li><a href="https://www.cnblogs.com/starof/p/4162354.html">4. javaScript创建对象(15)</a></li><li><a href="https://www.cnblogs.com/starof/p/4778640.html">5. AI(Adobe Illustrator)简单入门——米老鼠(12)</a></li><li><a href="https://www.cnblogs.com/starof/p/4615897.html">6. 使用Bootstrap v3.3.4注意细节box-sizing(11)</a></li><li><a href="https://www.cnblogs.com/starof/p/4424926.html">7. z-index堆叠规则(10)</a></li><li><a href="https://www.cnblogs.com/starof/p/4066381.html">8. javaScript事件（一）事件流(10)</a></li><li><a href="https://www.cnblogs.com/starof/p/4712604.html">9. 马甲线(10)</a></li><li><a href="https://www.cnblogs.com/starof/p/4459991.html">10. ::before和::after伪元素的用法(8)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/starof/p/4680083.html">1. centos7 mysql数据库安装和配置(53)</a></li><li><a href="https://www.cnblogs.com/starof/p/4459991.html">2. ::before和::after伪元素的用法(23)</a></li><li><a href="https://www.cnblogs.com/starof/p/4968769.html">3. css3常用动画+动画库(14)</a></li><li><a href="https://www.cnblogs.com/starof/p/5194622.html">4. 前端构建工具gulp使用(13)</a></li><li><a href="https://www.cnblogs.com/starof/p/5481935.html">5. Chrome Developer Tools：Network Panel说明(13)</a></li><li><a href="https://www.cnblogs.com/starof/p/4933907.html">6. jquery——九宫格大转盘抽奖(12)</a></li><li><a href="https://www.cnblogs.com/starof/p/4709805.html">7. ssh连接失败，排错经验(12)</a></li><li><a href="https://www.cnblogs.com/starof/p/4424926.html">8. z-index堆叠规则(10)</a></li><li><a href="https://www.cnblogs.com/starof/p/4066381.html">9. javaScript事件（一）事件流(10)</a></li><li><a href="https://www.cnblogs.com/starof/p/4587178.html">10. html5新增及废除属性(9)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 starof
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+<!--PageEndHtml Block Begin-->
+<div class="scrollBtn" id="scrollBtn">
+    <ul class="clearfix">
+        <li class="sB-home">
+            <a href="http://www.cnblogs.com/starof/" class="ff-t" title="首页"></a>
+        </li>
+        <li class="sB-comment">
+            <a href="#blog-comments-placeholder" onclick="$('#tbCommentBody').focus();" class="ff-t" title="添加评论"></a>
+        </li>
+        <li class="sB-share"><a onclick="if(cb_entryId !=undefined){AddToWz(cb_entryId)}" href="javascript:void(0);" title="收藏"></a></li>
+        <li class="sB-goTop" id="goTop" style="display: list-item;">
+            <a href="#top" title="回顶部"></a>
+        </li>
+    </ul>
+</div>
+<!--PageEndHtml Block End-->
+
+
+</body></html>

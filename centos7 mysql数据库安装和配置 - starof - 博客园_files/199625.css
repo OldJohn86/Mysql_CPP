@@ -1,0 +1,63 @@
+#blog_nav_sitehome{display:none;}
+#Header1_HeaderTitle:after{
+        content:string("   ");
+	}
+.dayTitle{
+background-color:#efefef;
+text-shadow:1px 1px white;
+}
+.dayTitle a {
+    color: #AOBF7C;
+}
+
+.entrylistTitle,.postTitle{
+background-color:#84af9b;
+}
+h1,h2,h3{
+    border-radius: 3px;
+    padding:3px;
+    background-color: #b2c8bb;
+    box-shadow: 3px 3px 5px #84af9b;
+    text-shadow:1px 1px #fff;
+}
+h1{
+background-color: #84af9b;
+font-size:135%;
+}
+h2 {
+font-size:125%;
+}
+h3 {
+font-size:110%;
+   // height: 35px;
+   // line-height: 35px;
+}
+
+.catListTag a {
+background-color:#84AF98;
+color:#CD4900;
+}
+.catListTag a:hover{
+background-color:#B2C8BB;
+color:#008000;
+}
+a:hover{
+background-color:B2C8BB;
+}
+::selection {
+  background: #C9F0DD;
+}
+
+/*pay*/
+.pay_img img{
+    width: 164px;
+    height: 164px;
+    padding: 5px;
+    margin-right:60px;
+    border: 1px solid #5ac73d;
+    border-radius: 4px;
+    background-color: #fff;
+}
+.pay_img img.alipay{
+    border:1px solid #00a7eb;
+}
